@@ -2,6 +2,7 @@ package main
 
 import (
 	. "Pizzabot/utils"
+	"errors"
 	"fmt"
 	"os"
 )
@@ -24,6 +25,9 @@ func traverseRoute(coords [][]int) (string, error) {
 
 	for i := 0; i < len(coords); i++ {
 		next := coords[i]
+		if len(next) != 2 {
+			return "", errors.New("unexpected error while parsing co-ordinate array")
+		}
 		x := next[0] - curr[0]
 		y := next[1] - curr[1]
 		route += getRoute(x,y) + "D"
