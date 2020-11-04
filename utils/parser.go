@@ -1,3 +1,5 @@
+// Package utils provides a collection of utility functions
+// for the Pizzabot service
 package utils
 
 import (
@@ -7,42 +9,50 @@ import (
 	"strings"
 )
 
-func GetCoords(inputString []string) [][]int {
-	exampleCoords := make([][]int, 2)
-	exampleCoords[0] = []int{1,3}
-	exampleCoords[1] = []int{4,4}
-	return exampleCoords
-}
-
-func getCord(str string) []int {
-	if !regexp.MustCompile("\\(\\s*[0-9]+,\\s*[0-9]+\\)").MatchString(str) {
-		log.Println("error occurred while parsing co-ordinate")
-		//log.Fatal(errors.New("error occurred while parsing co-ordinate"))
-		return nil
+// GetCoords will accept the input arguments and return
+// a multidimensional array of x,y co-ordinates
+func GetCoords(inputString []string) (string, [][2]int) {
+	// convert input args to string and validate
+	argsString := strings.Join(inputString[1:], "")
+	if !validateArgs(argsString) {
+		panic("Oh shit!!")
+		//log.Fatal(errors.New("error occurred while validating arguments"))
 	}
 
-	xyCoord := regexp.MustCompile("[0-9]+")
-	if !xyCoord.MatchString(str) {
-		log.Println("error occurred while parsing co-ordinate")
-		//log.Fatal(errors.New("error occurred while parsing co-ordinate"))
-		return nil
-	}
-	result := xyCoord.FindAllString(str,  2)
-	x, _ := strconv.Atoi(result[0])
-	y, _ := strconv.Atoi(result[1])
-	return []int{x,y}
+	coordStr := strings.Join(inputString[2:], "")
+	coordArray := getCoords(coordStr)
+
+	return inputString[1], coordArray
 }
 
-func validateArgs(coordArgs []string) bool {
-	validRegex := "([0-9]x[0-9])\\s*(\\(\\s*[0-9]+,\\s*[0-9]+\\)\\s*)+"
+func getCoords(argsString string) [][2]int {
+	// get a collection of numbers and start putting them into arrays
+	newCoords := strings.FieldsFunc(argsString, func(r rune) bool {
+		return r == '(' || r == ',' || r == ' ' || r == ')'
+	})
+	numOfCoords := len(newCoords)
+
+	if numOfCoords % 2 != 0 {
+		log.Fatalf("we require a matching number of x and y co-ordinates," +
+			" but there were %v total co-ordinates", numOfCoords)
+	}
+
+	locations := make([][2]int, numOfCoords/2)
+	arrayCounter := 0
+	for nextLocation := 0; nextLocation < numOfCoords/2; nextLocation++ {
+		x, _ := strconv.Atoi(newCoords[arrayCounter])
+		locations[nextLocation][0] = x
+		arrayCounter++
+		y, _ := strconv.Atoi(newCoords[arrayCounter])
+		locations[nextLocation][1] = y
+		arrayCounter++
+	}
+
+	return locations
+}
+
+func validateArgs(argsString string) bool {
+	validRegex := "(^[0-9]+x[0-9]+)\\s*(\\(\\s*[0-9]+,\\s*[0-9]+\\)\\s*)+"
 	validCoordinates := regexp.MustCompile(validRegex)
-	argsString := strings.Join(coordArgs, "")
-
-	if validCoordinates.MatchString(argsString) {
-		return true
-	}
-
-	log.Println("error occurred while parsing arguments")
-	//log.Fatal(errors.New("error occurred while parsing co-ordinate"))
-	return false
+	return validCoordinates.MatchString(argsString)
 }

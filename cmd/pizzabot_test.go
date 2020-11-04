@@ -45,7 +45,7 @@ func Test_getRoute(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := getRoute(tt.args.x, tt.args.y); got != tt.want {
+			if got := getNextRoute(tt.args.x, tt.args.y); got != tt.want {
 				t.Errorf("getRoute() = %v, want %v", got, tt.want)
 			}
 		})
@@ -54,31 +54,25 @@ func Test_getRoute(t *testing.T) {
 
 func Test_traverseRoute(t *testing.T) {
 	type args struct {
-		coords [][]int
+		coords [][2]int
 	}
-	arr1 := [][]int{{1,3},{5,5}}
-	arr2 := [][]int{{1,2},{2,2},{4,3},{5,5}}
-	arr3 := [][]int{{1}}
-	arr4 := [][]int{{1,2,3}}
+	arr1 := [][2]int{{1,3},{5,5}}
+	arr2 := [][2]int{{1,2},{2,2},{4,3},{5,5}}
+	arr3 := [][2]int{{1}}
+	arr4 := [][2]int{{}}
 	tests := []struct {
 		name    string
 		args    args
 		want    string
-		wantErr bool
 	}{
-		{"2 locations", args{arr1}, "NEEEDNNNNEED", false},
-		{"4 locations",args{arr2}, "NEEDNDNNEDNEED", false},
-		{"should err 1",args{arr3}, "", true},
-		{"should err 2",args{arr4}, "", true},
+		{"2 locations", args{arr1}, "NEEEDNNNNEED"},
+		{"4 locations",args{arr2}, "NEEDNDNNEDNEED"},
+		{"1 location",args{arr3}, "ND"},
+		{"0 locations",args{arr4}, "D"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := traverseRoute(tt.args.coords)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("traverseRoute() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if got != tt.want {
+			if got := traverseRoute(tt.args.coords); got != tt.want {
 				t.Errorf("traverseRoute() got = %v, want %v", got, tt.want)
 			}
 		})
