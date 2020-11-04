@@ -19,10 +19,11 @@ func GetCoords(inputString []string) (string, [][2]int) {
 		//log.Fatal(errors.New("error occurred while validating arguments"))
 	}
 
-	coordStr := strings.Join(inputString[2:], "")
+	args := strings.SplitN(argsString, " ", 2)
+	coordStr := strings.Join(args[1:], "")
 	coordArray := getCoords(coordStr)
 
-	return inputString[1], coordArray
+	return args[0], coordArray
 }
 
 func getCoords(argsString string) [][2]int {
@@ -32,8 +33,8 @@ func getCoords(argsString string) [][2]int {
 	})
 	numOfCoords := len(newCoords)
 
-	if numOfCoords % 2 != 0 {
-		log.Fatalf("we require a matching number of x and y co-ordinates," +
+	if numOfCoords%2 != 0 {
+		log.Fatalf("we require a matching number of x and y co-ordinates,"+
 			" but there were %v total co-ordinates", numOfCoords)
 	}
 
