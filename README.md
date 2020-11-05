@@ -2,15 +2,24 @@
 
 ## Robot pizza delivery
 
-Section        | Description
----------------|------------
-Task           | Description of task and goals
-Solution       | Requirements of solution
-Notes          | Additional requirements of solution
-Implementation | Implementation of solution
-Execution      | Instructions on how to execute program
+Section                           | Description
+----------------------------------|------------
+[Overview](#overview)             | Overview of problem and solution
+[Challenge](#challenge)           | Description of task and solution
+[Implementation](#implementation) | Implementation of solution
+[Execution](#execution)           | Instructions on how to execute program
 
-### Task
+### Overview
+
+This is a simple program to plot the course of a pizza delivery bot using sets of [x,y] co-ordinates,
+where `x` is a lateral position along the x-axis of a grid, and `y` is the vertical position on the
+y-axis.
+
+___
+
+### Challenge
+
+#### Task
 Your task is to instruct Pizzabot on how to deliver pizzas to all the houses in a neighborhood.
 In more specific terms, given a grid (where each point on the grid is one house) and a list of
 points representing houses in need of pizza delivery, return a list of instructions for getting
@@ -23,12 +32,8 @@ Pizzabot to those locations and delivering. An instruction is one of:
 - D: Drop pizza
 
 Pizzabot always starts at the origin point, (0, 0). As with a Cartesian plane, this point lies 
-at the most south- westerly point of the grid.
-
-Therefore, given the following input string: 5x5 (1, 3) (4, 4)
-one correct solution would be: ENNNDEEEND
-
-In other words: move east once and north thrice; drop a pizza; move east thrice and north once; 
+at the most south- westerly point of the grid. Therefore, given the following input string: 5x5 (1, 3) (4, 4)
+one correct solution would be: `ENNNDEEEND`  In other words: move east once and north thrice; drop a pizza; move east thrice and north once; 
 drop a final pizza.
 
 #### Solution
@@ -59,3 +64,34 @@ execute it.
 - Is there a README? A build script?
 - Are there spelling errors or extraneous comments? • How does it handle unspecified input?
 
+___
+
+### Implementation
+
+#### Code
+
+The code is implemented and tested in Go.  There is a main `pizzabot` package, along with a `utils`
+package to handle parsing of the input arguments, and sorting to optimise the route.  As efficiency
+and optimisation are not requirements of this test, I have only implemented a simple sort for the
+`x` co-ordinates.  I have added a method that could order the y-axis, but not implemented the code.
+Each method should encapsulate only the functionality required of it, and could be replaced with a
+more efficient implementation if required.  But using the method signatures and return values allows
+the code to stay decoupled from the caller.
+
+#### Unit Tests
+
+I have added unit tests to all the utils methods, covering extreme cases.
+
+### Execution
+
+To execute the `pizzabot` program, place the executable in your current directory and run the 
+following command from a terminal on either Linux or Mac:
+
+`./pizzabot "args"`
+
+where _args_ are the arguments to pass to the program in the form:
+`grid_size (co-ordingate_1) (co-ordingate_n)`.  For example:
+
+`./pizzabot "5x5 (1, 3) (4, 4)"`
+
+`./pizzabot "5x5 (0, 0) (1, 3) (4,4) (4, 2) (4, 2) (0, 1) (3, 2) (2, 3) (4, 1)"`

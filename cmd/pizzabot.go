@@ -40,15 +40,15 @@ func getNextRoute(x int, y int) string {
 	route := ""
 
 	if x > 0 {
-		route += getDirection("N", x)
+		route += getDirection("E", x)
 	} else if x < 0 {
-		route += getDirection("S", -x)
+		route += getDirection("W", -x)
 	}
 
 	if y > 0 {
-		route += getDirection("E", y)
+		route += getDirection("N", y)
 	} else if y < 0 {
-		route += getDirection("W", -y)
+		route += getDirection("S", -y)
 	}
 
 	return route
