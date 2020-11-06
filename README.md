@@ -54,15 +54,16 @@ To complete the challenge, please solve for the following exact input string:
 execute it.
 
 2. When the test is anonymously reviewed by a panel of your potential peers, here's whatwe're looking for:
-- Correctness:
-- Does the code fulfill all the requirements of the challenge?
-- Production Readiness:
-- Is the code well-structured by the standards of the host language?
-- Is the solution maintainable and easy to make changes to?
-- Is the code clean, readable and easy for other team members to understand? • Is there appropriate test coverage?
-- Fit and polish:
-- Is there a README? A build script?
-- Are there spelling errors or extraneous comments? • How does it handle unspecified input?
+   - Correctness:
+     - Does the code fulfill all the requirements of the challenge?
+   - Production Readiness:
+     - Is the code well-structured by the standards of the host language?
+     - Is the solution maintainable and easy to make changes to?
+     - Is the code clean, readable and easy for other team members to understand? 
+     - Is there appropriate test coverage?
+   - Fit and polish:
+     - Is there a README? A build script?
+     - Are there spelling errors or extraneous comments? • How does it handle unspecified input?
 
 ___
 

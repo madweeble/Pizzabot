@@ -1,22 +1,22 @@
-// Package utils provides a collection of utility functions
-// for the Pizzabot service
 package utils
 
 import (
+	"errors"
+	"fmt"
 	"log"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
-// GetCoords will accept the input arguments and return
-// a multidimensional array of x,y co-ordinates
+// GetCoords will accept the input arguments and
+// return an array of x,y co-ordinates
 func GetCoords(inputString []string) (string, [][2]int) {
 	// convert input args to string and validate
 	argsString := strings.Join(inputString[1:], "")
 	if !validateArgs(argsString) {
-		panic("Oh shit!!")
-		//log.Fatal(errors.New("error occurred while validating arguments"))
+		log.Fatal(errors.New(fmt.Sprintf("ERROR: incorrect arguments, expected: "+
+			"'grid (co-ordinates_1) (co-ordinates_n)', got: %v", argsString)))
 	}
 
 	args := strings.SplitN(argsString, " ", 2)

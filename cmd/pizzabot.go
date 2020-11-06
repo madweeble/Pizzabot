@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	fmt.Println(os.Args[:])
 	// get an array of co-ordinates from the input args
 	gridSize, coordArray := GetCoords(os.Args[:])
 	fmt.Println("Grid Size:", gridSize)
