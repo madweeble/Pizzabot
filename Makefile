@@ -12,7 +12,7 @@ help:
 clean: ## Clean build files
 	@echo "  >  Cleaning build cache"
 	@go clean
-	@-rm -rf $(BUILD_DIR) ./test.out ./cover.out
+	@-rm -rf $(BUILD_DIR) ./test.out ./cover.out ./coverage.out ./coverage.html
 
 build: ## Build the executable
 	@echo "  >  Building ${PROJECTNAME}"
@@ -21,14 +21,12 @@ build: ## Build the executable
 	@go build -o bin/pizzabot cmd/pizzabot.go
 
 test: ## Run all tests and output to test.out
-	@echo " > Executing unit tests"
+	@echo "  >  Executing unit tests"
 	@go test -v Pizzabot/utils Pizzabot/cmd > ./test.out
 
 cover: ## Generate test coverage report cover.out
-	@echo " > Executing test coverage report"
-	@go test -v -coverpkg=./... -coverprofile=cover.out ./... > cover.out
-	#@go tool cover -func=cover.out
-	#@go tool cover -mode=count -func=cover.out
+	@echo "  >  Executing test coverage report"
+	@go test -coverpkg=./... -coverprofile=cover.out ./...
 	@go tool cover -html=cover.out -o coverage.html
 
 run: build ## Run the executable
