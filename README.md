@@ -2,18 +2,19 @@
 
 ## Robot pizza delivery
 
-Section                           | Description
-----------------------------------|------------
-[Overview](#overview)             | Overview of problem and solution
-[Challenge](#challenge)           | Description of task and solution
-[Implementation](#implementation) | Implementation of solution
-[Execution](#execution)           | Instructions on how to execute program
+Section                                              | Description
+-----------------------------------------------------|------------
+[Overview](#overview)                                | Overview of problem and solution
+[Challenge](#challenge)                              | Description of task and solution
+[Implementation](#implementation)                    | Implementation of solution
+[Building](#building)                                | Building the program
+[Execution Instructions](#execution-instructions)    | Instructions on how to execute program
 
 ### Overview
 
 This is a simple program to plot the course of a pizza delivery bot using sets of [x,y] co-ordinates,
-where `x` is a lateral position along the x-axis of a grid, and `y` is the vertical position on the
-y-axis.
+where `x` is a lateral position along the x-axis of a grid, corresponding to East & West, and `y` 
+is the vertical position on the y-axis, corresponding to North & South.
 
 ___
 
@@ -46,7 +47,7 @@ into account when grading: all correct solutions are good solutions.
 
 To complete the challenge, please solve for the following exact input string:
  
-- `5x5 (0, 0) (1, 3) (4,4) (4, 2) (4, 2) (0, 1) (3, 2) (2, 3) (4, 1)`
+&nbsp; &nbsp; `5x5 (0, 0) (1, 3) (4,4) (4, 2) (4, 2) (0, 1) (3, 2) (2, 3) (4, 1)`
 
 #### Notes
 
@@ -69,30 +70,73 @@ ___
 
 ### Implementation
 
+#### Assumptions
+
+1. One main assumption I have made is that the co-ordinates must be 'all-or-nothing'.  So if there is
+an error with any co-ordinates, or any are invalid, the program will exit.  The assumption here is
+that we want the same number of deliveries as co-ordinates input to the program.  Therefore, if invalid
+ones are skipped, the number of deliveries will not equal the number of co-ordinates input to the program.
+
+2. Nothing was mentioned in the requirements as to whether or not the delivery co-ordinates should be
+allowed to extend beyond the size of the grid.  However, as the grid is explicitly defined in the argument
+string, I am working under the assumption that we should not go outside this grid.  One option in
+the case of a co-ordinate lying outside the grid would be to ignore that location.  However, as
+mentioned above, this would cause a mismatch between the number of co-ordinates entered, and the number
+of deliveries.  I have therefore chosen to flag the input as invalid.
+
+3. Another assumption is that all co-ordinates from the origin co-ordinates, `(0,0)`, will be positive.
+So if we pass a negative co-ordinate, for example `(-1, -3)`, the program will exit with an error
+message. 
+
 #### Code
 
 The code is implemented and tested in Go.  There is a main `pizzabot` package, along with a `utils`
 package to handle parsing of the input arguments, and sorting to optimise the route.  As efficiency
 and optimisation are not requirements of this test, I have only implemented a simple sort for the
-`x` co-ordinates.  I have added a method that could order the y-axis, but not implemented the code.
-Each method should encapsulate only the functionality required of it, and could be replaced with a
-more efficient implementation if required.  But using the method signatures and return values allows
-the code to stay decoupled from the caller.
+`x` co-ordinates.
+
+Each method should encapsulate only the functionality required of it, allowing for a level of 
+abstraction between the caller and the implementation.  This will make testing and maintenance
+easier.
 
 #### Unit Tests
 
-I have added unit tests to all the utils methods, covering extreme cases.
+I have added unit tests to all files and methods.  See below on how to run tests and coverage.
 
-### Execution
+---
 
-To execute the `pizzabot` program, place the executable in your current directory and run the 
-following command from a terminal on either Linux or Mac:
+### Building
+
+Use `make` to clean, build and test the project.
+
+To create the binary, run `make build`.  The Makefile will place the binary in the `./bin` folder.
+To run tests or produce a test coverage report, run the appropriate make commands and open the 
+resulting files.
+
+> clean &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Clean build files  
+> build &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Build the executable  
+> test &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Run all tests and output to test.out  
+> cover &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Generate test coverage report cover.out  
+> run &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Run the executable  
+
+---
+
+### Execution Instructions
+
+To execute the `pizzabot` program from the command line, change directory to the `bin` folder on
+either Linux or Mac and run the following command:
 
 `./pizzabot "args"`
 
 where _args_ are the arguments to pass to the program in the form:
-`grid_size (co-ordingate_1) (co-ordingate_n)`.  For example:
+`grid_size (co-ordingate_1) ... (co-ordingate_n)`.  For example:
 
 `./pizzabot "5x5 (1, 3) (4, 4)"`
 
 `./pizzabot "5x5 (0, 0) (1, 3) (4,4) (4, 2) (4, 2) (0, 1) (3, 2) (2, 3) (4, 1)"`
+
+**Notes:** 
+- there must be a space between the grid size and the subsequent co-ordinates
+- no co-ordinates should be greater than the corresponding x or y grid size
+- if the program is run using `build run`, the arguments must be passed using `ARGS=`, and spaces
+and parenthesis must be escaped.  For example: `make ARGS="5x5\ \(1, 3\)\ \(4, 4\)" run`
