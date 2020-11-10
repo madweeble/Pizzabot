@@ -19,5 +19,6 @@ func sortByX(coords [][2]int) [][2]int {
 
 func sortByY(coords [][2]int) [][2]int {
 	// TODO: add code here to sort each x-level co-ordinate by the y value
+	// This is not implemented as optimisation is not required
 	return coords
 }
