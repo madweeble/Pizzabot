@@ -24,7 +24,7 @@ test: ## Run all tests and output to test.out
 	@echo "  >  Executing unit tests"
 	@go test -v Pizzabot/utils Pizzabot/cmd > ./test.out
 
-cover: ## Generate test coverage report cover.out
+cover: ## Generate test coverage report coverage.html
 	@echo "  >  Executing test coverage report"
 	@go test -coverpkg=./... -coverprofile=cover.out ./...
 	@go tool cover -html=cover.out -o coverage.html

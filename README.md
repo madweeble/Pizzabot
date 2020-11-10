@@ -74,8 +74,8 @@ ___
 
 1. One main assumption I have made is that the co-ordinates must be 'all-or-nothing'.  So if there is
 an error with any co-ordinates, or any are invalid, the program will exit.  The assumption here is
-that we want the same number of deliveries as co-ordinates input to the program.  Therefore, if invalid
-ones are skipped, the number of deliveries will not equal the number of co-ordinates input to the program.
+that we want the same number of deliveries as co-ordinates input to the program.  If we chose to skip
+invalid ones, the number of deliveries would not equal the number of co-ordinates input to the program.
 
 2. Nothing was mentioned in the requirements as to whether or not the delivery co-ordinates should be
 allowed to extend beyond the size of the grid.  However, as the grid is explicitly defined in the argument
@@ -90,7 +90,7 @@ message.
 
 #### Code
 
-The code is implemented and tested in Go.  There is a main `pizzabot` package, along with a `utils`
+The code is implemented and tested in Go.  There is a main `cmd` package, along with a `utils`
 package to handle parsing of the input arguments, and sorting to optimise the route.  As efficiency
 and optimisation are not requirements of this test, I have only implemented a simple sort for the
 `x` co-ordinates.
@@ -110,13 +110,13 @@ I have added unit tests to all files and methods.  See below on how to run tests
 Use `make` to clean, build and test the project.
 
 To create the binary, run `make build`.  The Makefile will place the binary in the `./bin` folder.
-To run tests or produce a test coverage report, run the appropriate make commands and open the 
+To run tests or produce a test coverage report, run the appropriate `make` commands and open the 
 resulting files.
 
 > clean &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Clean build files  
 > build &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Build the executable  
 > test &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Run all tests and output to test.out  
-> cover &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Generate test coverage report cover.out  
+> cover &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Generate test coverage report coverage.html  
 > run &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Run the executable  
 
 ---
